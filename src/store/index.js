@@ -35,16 +35,19 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getPlanetsApi({commit}){
-      const {data} = await axios.get('https://api.le-systeme-solaire.net/rest.php/bodies')
-      commit('setPlanet', data.bodies)
+    async getPlanetsApi({state,commit}){
+      if(!state.planets) {
+        const {data} = await axios.get('https://api.le-systeme-solaire.net/rest.php/bodies')
+        commit('setPlanet', data.bodies)
+      }
     },
     async getPlanetsApiById({commit}, payload){
-      const {data} = await axios.get('https://api.le-systeme-solaire.net/rest.php/bodies/'+payload)
-      commit('setPlanetById', data)
+        const {data} = await axios.get('https://api.le-systeme-solaire.net/rest.php/bodies/'+payload)
+        commit('setPlanetById', data)
     },
     deleteItems({state}, payload){
       const index = state.planets.findIndex((ele) => ele.id === payload)
+      console.log(state.planets[index])
       state.planets.splice(index,1)
     },
     createItem({state}, payload){

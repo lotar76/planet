@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      itemsIn: [],
+      selector:null,
       selectors: [
         {id: 1, name: 'Только панеты', color: '#2c3e50'},
         {id: 2, name: 'Только с лунами', color: '#2c3e50'},
@@ -97,30 +97,27 @@ export default {
       }
     },
     clickSelector(val) {
-      switch (val) {
-        case 1:
-          this.itemsIn = this.items.filter((element) => element.isPlanet)
-          break;
-        case 2 :
-          this.itemsIn = this.items.filter((element) => element.moons)
-          break;
-        case 3 :
-          this.itemsIn = this.items
-          break;
-        default:
-          this.itemsIn = this.items
-      }
-
+      this.selector = val
     },
     ...mapActions(['getPlanetsApi'])
   },
   computed: {
+    itemsIn(){
+      switch (this.selector) {
+        case 1:
+          return  this.items.filter((element) => element.isPlanet)
+        case 2 :
+          return this.items.filter((element) => element.moons)
+        case 3 :
+          return this.items
+        default:
+          return this.items
+      }
+    },
     ...mapGetters({items: 'getPlanets'})
   },
   created() {
-    this.getPlanetsApi().then(() => {
-      this.itemsIn = this.items
-    })
+    this.getPlanetsApi()
   }
 }
 </script>

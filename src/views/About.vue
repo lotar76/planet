@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-content class="pa-2" >
+    <v-main  class="pa-2  " >
       <v-btn
           small
           color="primary"
@@ -9,8 +9,8 @@
         Вернуться к списку
       </v-btn>
       <h1>Объект : {{ this.$route.params.id }}</h1>
-      <pre>{{getPlanetsById}}</pre>
-    </v-content>
+      {{getPlanetsById}}
+    </v-main>
 
 
   </v-app>
