@@ -27,8 +27,6 @@
         <v-card-text>
       <component :is="GET_DIALOG_COMPONENT"></component>
         </v-card-text>
-
-
       </v-card>
     </v-dialog>
   </div>
@@ -38,11 +36,13 @@
 import {mapGetters, mapMutations} from "vuex";
 import NoneForm from "@/components/Forms/NoneForm";
 import EditeItem from "@/components/Forms/EditeItem";
-import CreateItem from "@/components/Forms/CreateItem";
+// import CreateItem from "@/components/Forms/CreateItem";
 import DeleteItem from "@/components/Forms/DeleteItem";
 
 export default {
-  components:{NoneForm,EditeItem,CreateItem,DeleteItem},
+  components:{NoneForm,EditeItem,
+    // CreateItem,
+    DeleteItem},
   name: "SimplyDialog",
   data () {
     return {

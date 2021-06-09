@@ -15,21 +15,21 @@
       ></table-planet>
       <div v-if="!items"> Идет загрузка</div>
     </div>
-<simply-dialog/>
+<simply-dialog-in></simply-dialog-in>
   </v-app>
 </template>
 
 <script>
 import TablePlanet from "@/components/TablePlanet";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import SimplyDialog from "@/components/Dialog/SimplyDialog";
+import SimplyDialogIn from "@/components/Dialog/SimplyDialog";
 
 
 export default {
   name: 'Home',
   components: {
-    SimplyDialog,
-    TablePlanet,
+    SimplyDialogIn,
+    TablePlanet
   },
   data() {
     return {
