@@ -20,6 +20,7 @@ export default {
         clearDialogOptions(state) {
             state.title = ''
             state.open = false
+            state.component = 'NoneForm'
         },
         setDialogOpen(state, payload) {
             state.open = payload.open

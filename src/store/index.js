@@ -47,11 +47,17 @@ export default new Vuex.Store({
     },
     deleteItems({state}, payload){
       const index = state.planets.findIndex((ele) => ele.id === payload)
-      console.log(state.planets[index])
       state.planets.splice(index,1)
     },
     createItem({state}, payload){
-      state.planets.shift(payload)
+      state.planets.unshift(payload)
+      this.commit('dialogStore/clearDialogOptions')
+    },
+    editItem({state}, payload){
+      const index = state.planets.findIndex((ele) => ele.id === payload.id)
+      state.planets.splice(index,1,payload)
+      this.commit('dialogStore/clearDialogOptions')
+
     }
 
   },

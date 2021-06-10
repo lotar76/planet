@@ -36,12 +36,12 @@
 import {mapGetters, mapMutations} from "vuex";
 import NoneForm from "@/components/Forms/NoneForm";
 import EditeItem from "@/components/Forms/EditeItem";
-// import CreateItem from "@/components/Forms/CreateItem";
+import CreateItem from "@/components/Forms/CreateItem";
 import DeleteItem from "@/components/Forms/DeleteItem";
 
 export default {
   components:{NoneForm,EditeItem,
-    // CreateItem,
+    CreateItem,
     DeleteItem},
   name: "SimplyDialog",
   data () {

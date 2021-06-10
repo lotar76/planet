@@ -1,5 +1,4 @@
 <template>
-
   <v-card >
     <v-card-title>
       <v-text-field
@@ -35,7 +34,7 @@
         </div>
 
           <div style="float: right" v-if="createBtn">
-            <v-btn color="primary" @click="$emit('clickCreateBtn')">
+            <v-btn small color="primary" @click="$emit('clickCreateBtn')">
               создать объект
             </v-btn>
           </div>

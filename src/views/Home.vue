@@ -1,7 +1,6 @@
 <template>
   <v-app>
-    <div class="home">
-
+    <div >
       <table-planet
           :createBtn="true"
           @clickCreateBtn="clickCreateBtn"
@@ -81,7 +80,6 @@ export default {
       })
     },
     actionClick(val) {
-      console.log(val)
       switch (val.id) {
         case 1:
           this.$router.push({name:'About', params:{'id':val.payload}})
