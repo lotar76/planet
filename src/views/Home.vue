@@ -1,7 +1,9 @@
 <template>
   <v-app>
-    <div >
+    <div>
       <table-planet
+          :loadMore="loadMore"
+          @clickPage="clickPage"
           :createBtn="true"
           @clickCreateBtn="clickCreateBtn"
           :actions="actionsIn"
@@ -14,7 +16,7 @@
       ></table-planet>
       <div v-if="!items"> Идет загрузка</div>
     </div>
-<simply-dialog-in></simply-dialog-in>
+    <simply-dialog-in></simply-dialog-in>
   </v-app>
 </template>
 
@@ -32,11 +34,15 @@ export default {
   },
   data() {
     return {
-      selector:null,
+      loadMore:true,
+      pages:[],
+      page:1,
+      selector: null,
       selectors: [
         {id: 1, name: 'Только панеты', color: '#2c3e50'},
         {id: 2, name: 'Только с лунами', color: '#2c3e50'},
-        {id: 3, name: 'Все', color: 'blue'}
+        {id: 3, name: 'Все', color: 'blue'},
+        {id: 4, name: 'Архив', color: 'red'}
       ],
       headers: [
         {text: 'Наименование', value: 'name', width: 150, align: 'center'},
@@ -47,42 +53,47 @@ export default {
         {text: '', value: 'actions', width: 150, align: 'center'},
       ],
       actionsIn: [
-        {id: 1, name: 'Подробнее', icon: 'mdi-eye', color:'green'},
-        {id: 2, name: 'Редактировать', icon: 'mdi-pencil'},
-        {id: 3, name: 'Удалить', icon: 'mdi-delete', color:'red'},
+        {id: 1, name: 'Подробнее', icon: 'mdi-eye', color: 'green', show:true},
+        {id: 2, name: 'Редактировать', icon: 'mdi-pencil', show:true},
+        {id: 3, name: 'Удалить', icon: 'mdi-delete', color: 'red', show:true},
       ]
     }
   },
   methods: {
-    ...mapMutations('dialogStore',['setDialogOpen']),
+    ...mapMutations('dialogStore', ['setDialogOpen']),
     ...mapMutations(['setOptions']),
-    clickCreateBtn(){
+    clickPage(val){
+      console.log('1111',val);
+      // this.page=val
+      this.getPlanetsApi(val+1 +',10')
+    },
+    clickCreateBtn() {
       this.setDialogOpen({
-        open:true,
-        title:'Cоздаем объект',
-        component:'CreateItem'
+        open: true,
+        title: 'Cоздаем объект',
+        component: 'CreateItem'
       })
     },
-    editeItem(val){
+    editeItem(val) {
       this.setOptions(val)
       this.setDialogOpen({
-        open:true,
-        title:'Редактируем объект',
-        component:'EditeItem'
+        open: true,
+        title: 'Редактируем объект',
+        component: 'EditeItem'
       })
     },
-    deleteItem(val){
+    deleteItem(val) {
       this.setOptions(val)
       this.setDialogOpen({
-        open:true,
-        title:'Удаление объекта',
-        component:'DeleteItem'
+        open: true,
+        title: 'Удаление объекта',
+        component: 'DeleteItem'
       })
     },
     actionClick(val) {
       switch (val.id) {
         case 1:
-          this.$router.push({name:'About', params:{'id':val.payload}})
+          this.$router.push({name: 'About', params: {'id': val.payload}})
           break;
         case 2 :
           this.editeItem(val.payload)
@@ -91,31 +102,49 @@ export default {
           this.deleteItem(val.payload)
           break;
         default:
-          this.$router.push({name:'About', params:{'id':val.payload}})
+          this.$router.push({name: 'About', params: {'id': val.payload}})
       }
     },
-    clickSelector(val) {
-      this.selector = val
+    clickSelector(newVal) {
+      if(newVal === 4){
+        this.loadMore = false
+        this.actionsIn[2].show=false
+        this.actionsIn[1].show=false
+      }
+      else {
+        this.loadMore = true
+        this.actionsIn[2].show=true
+        this.actionsIn[1].show=true
+      }
+      this.selector = newVal
     },
     ...mapActions(['getPlanetsApi'])
   },
   computed: {
-    itemsIn(){
+    itemsIn() {
       switch (this.selector) {
         case 1:
-          return  this.items.filter((element) => element.isPlanet)
+          return this.items.filter((element) => element.isPlanet && element.status_app)
         case 2 :
-          return this.items.filter((element) => element.moons)
+          return this.items.filter((element) => element.moons && element.status_app)
         case 3 :
-          return this.items
+          return this.items.filter((element) => element.status_app)
+        case 4 :
+          return this.items.filter((element) => !element.status_app)
         default:
-          return this.items
+          return this.items.filter((element) => element.status_app)
       }
     },
-    ...mapGetters({items: 'getPlanets'})
+    ...mapGetters(
+        {
+          items: 'getPlanets',
+          archive: 'getArchive'
+        }
+    )
   },
   created() {
-    this.getPlanetsApi()
+    this.getPlanetsApi('1,10')
+
   }
 }
 </script>

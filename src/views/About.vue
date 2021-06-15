@@ -9,7 +9,19 @@
         Вернуться к списку
       </v-btn>
       <h1>Объект : {{ this.$route.params.id }}</h1>
-      {{getPlanetsById}}
+      <v-simple-table class="pa-2">
+        <template v-slot:default>
+          <tbody>
+          <tr
+              v-for="(value,name) in getPlanetsById"
+              :key="name"
+          >
+            <td>{{ name }}</td>
+            <td>{{ value }}</td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </v-main>
 
 
